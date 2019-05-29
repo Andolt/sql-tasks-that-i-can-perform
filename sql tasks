@@ -1,0 +1,25 @@
+SELECT * FROM [Employees] WHERE FirstName = 'Robert'
+SELECT * FROM [Orders] where OrderID between 10253 and 10260
+SELECT * FROM [Products] WHERE ProductName LIKE 'Chef%'
+SELECT ProductName, Price * 0.5 FROM [Products] WHERE ProductID IN(1,3,7,9) 
+SELECT * FROM [Orders] WHERE EmployeeID=5 OR CustomerID>88 AND ShipperID=1
+SELECT * FROM Products WHERE ProductID>=64 OR SupplierID=(SELECT SupplierID FROM Suppliers WHERE SupplierName='Tokyo Traders')
+SELECT OrderID, LastName, FirstName FROM Orders AS O JOIN Employees AS E ON O.EmployeeID=E.EmployeeID
+SELECT * FROM Employees LEFT JOIN Orders ON Employees.EmployeeID=Orders.EmployeeID WHERE OrderID IS NULL
+SELECT OrderID, Quantity, ProductName FROM OrderDetails INNER JOIN Products ON OrderDetails.ProductID=Products.ProductID
+SELECT 'Shipper' as Tablename, ShipperName FROM [Shippers] UNION ALL SELECT 'Supplier',SupplierName FROM Suppliers
+SELECT CustomerID FROM Orders WHERE Orders.OrderDate LIKE '1996%' EXCEPT SELECT CustomerID FROM Orders WHERE Orders.OrderDate LIKE '1997%' 
+SELECT OrderDetails.OrderID, Products.ProductName FROM OrderDetails JOIN Products ON OrderDetails.ProductID=Products.ProductID JOIN Categories ON Products.CategoryID=Categories.CategoryID WHERE Quantity>20 AND CategoryName='Produce'
+SELECT max(o.OrderID) FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID WHERE e.LastName = "Buchanan" AND e.FirstName = "Steven"
+SELECT OrderID, sum(quantity) as totalquantity FROM [OrderDetails] group by OrderID having sum(quantity)>200
+SELECT * FROM Products WHERE price > (SELECT AVG(price) FROM Products)
+SELECT CategoryID, MAX(Price) FROM Products GROUP BY CategoryID
+SELECT s.EmployeeID, count(OrderID) From Employees s left join Orders c on s.EmployeeID = c.EmployeeID group by s.EmployeeID
+SELECT OrderID, SUM (quantity) FROM OrderDetails GROUP BY OrderID
+SELECT OrderDetails.orderid ,SUM(Products.Price * OrderDetails.Quantity) as Sum_order FROM OrderDetails JOIN Products ON OrderDetails.ProductID = Products.ProductID GROUP BY OrderDetails.OrderID
+SELECT SupplierName, sum(price) FROM Suppliers as s Join Products as p On s.SupplierID = p.SupplierID Group by SupplierName Having price = (SELECT Max(price)From Products)
+Insert into Employees (EmployeeID, LastName) values (11, 'me')
+UPDATE Employees SET FirstName = 'Yeah, its me' WHERE EmployeeID = 11
+UPDATE Orders SET EmployeeID = 11 WHERE CustomerID = 90
+select * from products where price > (select avg(price) from products)
+DELETE FROM Shippers WHERE ShipperName = 'Federal Shipping'
